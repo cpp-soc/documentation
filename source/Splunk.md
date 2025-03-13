@@ -54,6 +54,8 @@ Splunk is a log aggregator used to centralize logs and data. At the SOC we are u
         Double click on the .msi file you downloaded and follow the instructions to install.
 
 ## How to setup the Splunk Universal Forwarder
+The Splunk Universal Forwarder is installed on endpoint devices to gather logs and send them back to your Splunk Server.
+Download the correct Splunk Universal Forwarder for the endpoint device.
 
 ## How to setup a Splunk Deployment Server
 
