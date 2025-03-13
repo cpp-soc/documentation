@@ -1,0 +1,5 @@
+sphinx==5.0.2
+myst-parser==0.18.0
+furo==2022.6.21
+sphinx_rtd_theme==1.0.0
+standard-imghdr==3.13.0
