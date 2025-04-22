@@ -92,7 +92,7 @@ wget -O splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb "https://download.splunk.c
 <br> 
 Navigate to the folder you downloaded the file and run the command 
 <code>
-dpkg -i plunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb
+dpkg -i splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb
 </code>
  
 Navigate to the folder /opt/splunk/bin and run 
