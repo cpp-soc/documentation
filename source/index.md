@@ -9,5 +9,4 @@ Here lies the documentation of the Student run Security Operations Center at the
 Volunteering Opportunities <Volunteers>
 Splunk <Splunk>
 Splunk Lab <Splunk_Lab>
-Test <Test>
 ```
