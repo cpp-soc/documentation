@@ -8,10 +8,10 @@ All operations done on either side will require you to connect to our VPN to acc
 
 ## VPN Access Setup
 
-1. **Request Access**: Please fill out this Microsoft Form for User Access to our VPN.
+1. **Request Access**: Please fill out this Microsoft Form for User Access to our VPN. [Form]((https://forms.cloud.microsoft/r/5BtvPPTJku))
 2. **Install VPN Client**: If you have never logged in to Kamino, please install Palo Alto's GlobalProtect application. We are now completing authentication using Cal Poly Pomona's SSO.
 3. **Initial Connection**:
-   - After installing the application, you will be prompted with the following windows
+   - After installing the application, you will be prompted with the following windows <insert pictures i forgot lol>
    - When asked to enter our Portal Address use: `mgmt.sdc.cpp.edu`
    - This will prompt you to login using Cal Poly SSO
 
@@ -32,8 +32,6 @@ If you do not have credentials or do not remember the details, ask a Student Dir
 3. Recommended setup: provision two pods
    - One for your server
    - One client to forward logs to said server
-
-Once configured, you should be able to remotely access the VPN using either SSH or Proxmox.
 
 ---
 
