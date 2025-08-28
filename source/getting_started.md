@@ -8,7 +8,7 @@ All operations done on either side will require you to connect to our VPN to acc
 
 ## VPN Access Setup
 
-1. **Request Access**: Please fill out this Microsoft Form for User Access to our VPN. [Form]((https://forms.cloud.microsoft/r/5BtvPPTJku))
+1. **Request Access**: Please fill out this Microsoft Form for User Access to our VPN. [Form](https://forms.cloud.microsoft/r/5BtvPPTJku)
 2. **Install VPN Client**: If you have never logged in to Kamino, please install Palo Alto's GlobalProtect application. We are now completing authentication using Cal Poly Pomona's SSO.
 3. **Initial Connection**:
    - After installing the application, you will be prompted with the following windows <insert pictures i forgot lol>
