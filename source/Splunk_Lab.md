@@ -2,6 +2,9 @@
 
 # Note 9/7/25: This Splunk Lab is in the process of being updated! Some of the processes mentioned are no longer relevant/applicable. Please take the time to reach out to either SOC Student Directors in person or on Discord to get updated steps!
 
+## Note 9/7/25: This Splunk Lab is in the process of being updated! Some of the processes mentioned are no longer relevant/applicable. Please take the time to reach out to either SOC Student Directors in person or on Discord to get updated steps!
+
+
 ## Overview
 In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoint devices to your Splunk logs, aka ingesting logs. After you get comfortable ingesting logs we will also be generating our own log sources and learning how we can ingest those logs too. 
 
