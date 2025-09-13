@@ -8,31 +8,32 @@ After a major rebuild of the infrastructure at the Student Data Center, the Stud
 
 In the beginning, querying the GlobalProtect VPN logs in Splunk for *"successful"* logins led to confusing and misleading results. The initial Splunk query was intended to filter for successful connection events, but it ended up including a huge volume of logs from around the world – even places like Russia, Africa, and Asia – suggesting hundreds of thousands of VPN login attempts. This was obviously alarming and pointed to something being off with the query or the logs forwarded.
 
-The root issue was that the log fields were ambiguous. Some events were being marked with fields: action or status with *"success"* even when the login actually failed. For example, certain logs showed an action field of *"success"* but, upon inspecting details, the same log would contain an error message like *"COPY AND PASTE WHAT IT REALLY WAS"*. In some cases, the username field (`src_user`) was literally set to `"success"`, which clearly was not a real user account but rather a misinterpreted field. These were false positives that made it look like users from all over the globe were connecting, when in reality they were failed login attempts or automated brute-force attempts being logged in a misleading way.
+The root issue was that the log fields were ambiguous. Some events were being marked with fields: action or status with *"success"* even when the login actually failed. For example, certain logs showed an action field of *"success"* but, upon inspecting details, the same log would contain an error message like *"Authentication failed: Invalid username or password	
+"*. In some cases, the username field (`src_user`) was literally set to `"success"`, which clearly was not a real user account but rather a misinterpreted field. These were false positives that made it look like users from all over the globe were connecting, when in reality they were failed login attempts or automated brute-force attempts being logged in a misleading way.
+
+![Raw user Logs](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map1.jpg)
+![Redacted fields but user is known as 'success'](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map2.jpg)
 
 To illustrate the problem, the SOC’s first query was roughly:
 
 ```splunk
-index="netfw" sourcetype="pan:globalprotect" "success" src_user=*
+index="netfw" sourcetype="pan:globalprotect" status=success
 | iplocation src_ip
 | eval start_lat=lat, start_lon=lon, end_lat=34.0597, end_lon=-117.8200
-| stats count by src_user, start_lat, start_lon, end_lat, end_lon, src_ip
-```
-and
-```splunk
-index="netfw" sourcetype="pan:globalprotect" "success"
-| iplocation src_ip
-| eval start_lat=lat, start_lon=lon, end_lat=34.0597, end_lon=-117.8200
-| stats count by src_user, start_lat, start_lon, end_lat, end_lon, src_ip
+| stats count by start_lat, start_lon, end_lat, end_lon, src_ip
 ```
 
 This attempted to find any logs with the term *"success"* and map their source IP locations. However, it swept up events that were not true successes. The resulting visualization showed an explosion of connection lines from virtually every continent, which was not an accurate picture of actual VPN usage. As shown below, the initial query’s output (on a world map) was cluttered with false-positive connections:
-
-*Initial query results showing numerous false-positive "success" logs globally*
+ *Note: image below was taken on 9/13 and I restricted the view to up to 9 hours for the purposes of proper and useful visualization*
+![Redacted fields but user is known as 'success'](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map3.jpg)
 
 The team investigated a few suspicious log entries to understand why they were being counted as successful. They found, for instance, logs where the user field was set to “success” and the action was “success” as well – yet further details in the log indicated a bad password. In contrast, a truly successful login log would show a real username and no such error. The screenshot below compares a suspicious log vs. a clean log in Splunk: the left side event is flagged as *"success"* but is actually a failed login attempt (with an error in the details), whereas the right side is a genuine successful VPN connection event.
 
 *Comparison of a suspicious "success" log (left) vs. a genuine successful login log (right)*
+![Logins where usernames are marked as 'success'](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map4.jpg)
+![Splunk View of those incorrectly marked logs'](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map5.jpg)
+Below is a proper login where an individual logged out and fields are marked properly, redacted parts are PII.
+![Redacted Image of a Proper Login by Bill :D'](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map6.jpg)
 
 This initial hurdle highlighted that not all *"success"* logs were equal. The SOC needed a better way to filter the data so that only true successful VPN connections would be visualized.
 
@@ -56,6 +57,7 @@ Having a deprecated portal publicly accessible is a risk, but at the time the SO
 The screenshot below shows what the `vpn.sdc.cpp.edu` login interface looks like – a simple login form without SSO. This simplicity is exactly what makes it a brute-force target, as any internet user can reach this page and attempt to log in:
 
 *Legacy VPN Portal login page (vpn.sdc.cpp.edu) with basic username/password prompt*
+![Legacy Portal](https://www.cppsoc.xyz/assets/documentation/missile-map/missile_map7.jpg)
 
 ### Brute-force exposure
 With just a username and password field and no second-factor or SSO, bots around the world constantly probed this portal. The SOC observed many login attempts from foreign IPs (which initially masqueraded in the logs as “successful” due to the logging quirk). This underscored the importance of a plan to either better secure this portal (rate limiting, MFA, or network restrictions) or fully decommission it as soon as external-event needs allow.
