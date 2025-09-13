@@ -3,29 +3,29 @@
 ## Note 9/7/25: This Splunk Lab is in the process of being updated! Some of the processes mentioned are no longer relevant/applicable. Please take the time to reach out to either SOC Student Directors in person or on Discord to get updated steps!
 
 ## Overview
-In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoint devices to your Splunk logs, aka ingesting logs. After you get comfortable ingesting logs we will also be generating our own log sources and learning how we can ingest those logs too. 
+In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoints to your Splunk logs, aka ingesting logs. After ingesting logs, we will also be generating our own log sources and learning how we can ingest those logs too. 
 
 ### Technologies you will use
-- Splunk Enterprise
+- Splunk
 - Splunk Universal Forwarder
 - Linux - Debian
 - Windows
 - Sysmon
 
-As more and more people complete the beginner lab we will start working on a more advanced lab for people interested in learning more about Splunk.
+As more people complete the beginner lab, we will start working on a more advanced lab for people interested in learning more about Splunk.
 
 ## Lab Structure
 1. We give you a task. We want you to figure out as much as you can by yourself so the instructions will be very minimal.
-2. If you get stuck on a task feel free to take a look at the hints section.
+2. If you get stuck on a task, feel free to take a look at the hints section.
 3. Don't be discouraged as we also share the answers.
 
 ## Setup
 
-You have 2 options for this lab. To follow along this lab you can either use the SDC cloud or use your local machine to build the lab. I recommend the SDC cloud as it is simpler than trying to install your own virtual machine on your own computer. 
+You have 2 options for this lab. To follow along this lab you can either use the SDC cloud or use your local machine to build the lab. I recommend the SDC cloud as it is simpler than trying to install your own virtual machines on your own computer. 
 
 ### Cloud instance
 
-1. First you will need to download and install [Pritunl](https://client.pritunl.com/#install)
+1. First, download and install [GlobalProtect](https://foundation.cpp.edu/content/f/d/IT/Public-Installing%20Agent%20for%20VPN%20Connection.pdf)
 
 2. Next contact the Student Data Center to get VPN credentials
 
