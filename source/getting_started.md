@@ -34,5 +34,3 @@ If you do not have credentials or do not remember the details, ask a Student Dir
    - One client to forward logs to said server
 
 ---
-
-**Known Issue (August 27)**: Students who provision pods on Kamino are not having them assigned in Proxmox, showing an empty list with just nodes.
