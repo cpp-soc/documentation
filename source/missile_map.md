@@ -121,3 +121,5 @@ The Student SOC’s implementation of the Missile Map was a success – both in 
 [1] [Event Descriptions for the GlobalProtect Logs in PAN-OS](https://docs.paloaltonetworks.com/globalprotect/10-1/globalprotect-admin/logging-for-globalprotect-in-pan-os/event-descriptions-for-the-globalprotect-logs-in-pan-os)
 
 [2, 3] [GitHub - lukemonahan/missile_map: Missile Map Splunk visualisation](https://github.com/lukemonahan/missile_map)
+
+*AI used to improve language and markdown
