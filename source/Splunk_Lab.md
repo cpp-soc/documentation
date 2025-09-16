@@ -1,9 +1,7 @@
 # Welcome to the Splunk Lab
 
-## Note 9/7/25: This Splunk Lab is in the process of being updated! Some of the processes mentioned are no longer relevant/applicable. Please take the time to reach out to either SOC Student Directors in person or on Discord to get updated steps!
-
 ## Overview
-In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoint devices to your Splunk logs, aka ingesting logs. After you get comfortable ingesting logs we will also be generating our own log sources and learning how we can ingest those logs too. 
+In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoint devices to your Splunk logs, aka ingesting logs. After you get comfortable ingesting logs we will also be generating our own log sources and learning how we can ingest those logs too. At the end of this lab you should be comfortable with operating between different operating systems, familiarity with terminal and how to parse different types of logs across different operating systems
 
 ### Technologies you will use
 - Splunk Enterprise
@@ -21,44 +19,39 @@ As more and more people complete the beginner lab we will start working on a mor
 
 ## Setup
 
-You have 2 options for this lab. To follow along this lab you can either use the SDC cloud or use your local machine to build the lab. I recommend the SDC cloud as it is simpler than trying to install your own virtual machine on your own computer. 
+To follow along this lab you can use the Student Data Center to provision your virtual machines and get comfortable with the remote/cloud environment. Setting this up locally on your own hardware is possible but these instructions will not outline the setup there.
 
-### Cloud instance
+### Setup #2
 
-1. First you will need to download and install [Pritunl](https://client.pritunl.com/#install)
+1. Start reading through [Getting Started](https://wiki.cppsoc.xyz/en/latest/getting_started.html)
 
-2. Next contact the Student Data Center to get VPN credentials
+2. Request Login Credentials (AD) from a Student Director 
 
-3. Import the profile provided to you by the MC Hill bot. Dont enter a profile url
+3. Login to [Kamino](https://kamino.sdc.cpp) 
 
-4. Once Imported, connect to the sdc_vpn and use the credentials given to you
+4. Create a pod based off our Template: SOC intro splunk lab - Splunk Lab 2025
 
-5. Open up a web browser and navigate to https://kamino.calpolyswift.org/#/
+5. Provisioning these pods takes a bit of time, refresh the page periodically to see if 3 Virtual Machines create and 1 pfSense Router
 
-6. Register an account and login
+6. Login to [Proxmox VE](https://proxmox.sdc.cpp) to see your provisioned virtual machines in detailed
+  - After you login we recommend changeing your view mode at the top left to 'Pool View' to better see the VMs and Resource Pool Assigned to you
 
-7. Create a pod 
-
-8. In a new tab navigate to https://elsa.sdc.cpp/
-
-9. Login using the account you created in step 6
-
-10. Power on the VMs provided
+7. Power on the VMs provided to you
 
 You are now ready to start the lab.
 
+## Tip #1
 
-### Local Instance
+The SDC is running into internet speed issues depending on where your Virtual Machine is being hosted at. In more detail, depending on your Virtual Machine's location, your download speeds over the WAN might be at kb/s when downloading packages etc. 
 
-1. Download and install Virtual Box or Vmware Player
-2. Download the Debian ISO file
-3. Create a new VM using the Debian ISO file
-4. Start the VM
-Install Splunk on a debian machine.
+A cool workaround we have at the moment is that the LAN is not speed limited at all so if you have a machine that is on the same network (Your Laptop or PC connected to GlobalProtect VPN) you can use a command-line utitlty called 'scp' - Secure Copy to actually copy files through your remote shell over to the target machine. This will make more sense for Task #1 specifically but this is your introduction to the idea of 'scp'.
 
+## Tip #2
 
-## Task 1 - Setting up Splunk Server
-After you complete the setup of the lab, we will now work with the vm called "debian". 
+On top of that, will that pfSense router provisoned to you, your VMs in your resource pool are 'externally' accessible! Externally in quotes because anyone on the GlobalProtect VPN can access it, if they know the subnet and IP of your machines. Not externally meaning on the WAN of the GlobalProtect router. So using 'scp' command-line in combination of knowing how the router is configured will allow you to do many more things outside of the 'Proxmox Virtual Environment' but allow you to SSH into your Virtual Machines and or RDP into your Windows Clients
+
+## Task 1 - Setting up Splunk Enterprise Server
+After you complete the setup of the lab, we will now work with the VM called "server-debian-clone". 
 
 The task is to create our very own Splunk server. When I say create I simply mean install the Splunk Enterprise Trial. So see if you can install that on the debian vm.
 
@@ -91,6 +84,13 @@ Download the Splunk Enterprise Trial with the command below
 <code>
 wget -O splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb "https://download.splunk.com/products/splunk/releases/9.2.1/linux/splunk-9.2.1-78803f08aabb-linux-2.6-amd64.deb"
 </code>
+
+If you are struggling to use wget, moreover download speeds are in the kb/s, your machine is most likely affected by the download speed issue. Try downloading that exact file onto your machine (yes, your macbook or laptop) and run the following command line utility
+
+<code>scp ./splunk.deb root@172.16.x.xxx:/scp</code>
+
+This block of code serves to be a basic usage of how scp command utility works and how you can use it right on your machine to communicate to your virtual machine.
+
 <br> 
 Navigate to the folder you downloaded the file and run the command 
 <code>
