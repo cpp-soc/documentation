@@ -4,23 +4,22 @@
 In this lab we will teach you how to setup your own Splunk server. You will also learn how you can forward logs from different endpoint devices to your Splunk logs, aka ingesting logs. After you get comfortable ingesting logs we will also be generating our own log sources and learning how we can ingest those logs too. At the end of this lab you should be comfortable with operating between different operating systems, familiarity with terminal and how to parse different types of logs across different operating systems
 
 ### Technologies you will use
-- Splunk Enterprise
+- Splunk
 - Splunk Universal Forwarder
 - Linux - Debian
 - Windows
 - Sysmon
 
-As more and more people complete the beginner lab we will start working on a more advanced lab for people interested in learning more about Splunk.
+As more people complete the beginner lab, we will start working on a more advanced lab for people interested in learning more about Splunk.
 
 ## Lab Structure
 1. We give you a task. We want you to figure out as much as you can by yourself so the instructions will be very minimal.
-2. If you get stuck on a task feel free to take a look at the hints section.
+2. If you get stuck on a task, feel free to take a look at the hints section.
 3. Don't be discouraged as we also share the answers.
 
 ## Setup
 
 To follow along this lab you can use the Student Data Center to provision your virtual machines and get comfortable with the remote/cloud environment. Setting this up locally on your own hardware is possible but these instructions will not outline the setup there.
-
 ### Setup #2
 
 1. Start reading through [Getting Started](https://wiki.cppsoc.xyz/en/latest/getting_started.html)
