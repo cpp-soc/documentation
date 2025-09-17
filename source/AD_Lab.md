@@ -43,7 +43,7 @@ Let's begin by configuring our first VM, which will serve as the Primary Domain 
 <details>
 <summary>2. Click <strong>Install Now</strong>.</summary>
 
-*Image showing the 'Install Now' button.*
+![Install Now button](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/1.png)
 
 </details>
 <details>
