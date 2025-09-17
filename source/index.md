@@ -9,6 +9,7 @@ Here lies the documentation of the Student run Security Operations Center at the
 Volunteering Opportunities <Volunteers>
 Getting Started (Updated August 2025) <getting_started>
 Splunk <Splunk>
-Splunk Lab (Updated September 2025) <Splunk_Lab>
+Splunk Lab <Splunk_Lab>
+AD + Splunk Lab <AD_Lab>
 Missile Map <missile_map>
 ```
