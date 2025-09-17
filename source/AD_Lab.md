@@ -125,16 +125,18 @@ If you are using Proxmox or a similar KVM-based hypervisor, you will need to loa
 
 ![Image showing the primary partition selected and the 'Next' button highlighted.](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/12.png)
 
+![Image of the Windows installation progress screen.](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/13.png)
+
 </details>
 <details>
 <summary>4. Windows will now install. This process may take some time.</summary>
 
-![Image of the Windows installation progress screen.](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/13.png)
+![Image of the password creation screen for the Administrator account.](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/14.png)
 
 </details>
 <details>
 <summary>5. Once the installation is complete, the VM will restart, and you will be prompted to set a password for the local <strong>Administrator</strong> account. Choose a secure password and complete the setup.</summary>
 
-![Image of the password creation screen for the Administrator account.](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/14.png)
+*No photo taken; but if you need help, reach out!*
 
 </details>
