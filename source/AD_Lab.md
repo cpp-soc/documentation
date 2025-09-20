@@ -398,7 +398,7 @@ tphao.soc         True
 
 We are going to proceed with adding clients to this domain and joining Windows 10 client machines to our newly created domain!
 
-## Lab Setup: Windows Client
+## Windows Client - 1
 
 Now that you are experienced in deploying virtual machines in our environment, the instructions will be less guided and focus on specific goals and objectives.
 
@@ -458,5 +458,7 @@ Now that you are experienced in deploying virtual machines in our environment, t
 
 </details>
 
-Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
 
+### What's Next?
+
+Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
