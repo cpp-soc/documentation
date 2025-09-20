@@ -140,3 +140,85 @@ If you are using Proxmox or a similar KVM-based hypervisor, you will need to loa
 *No photo taken; but if you need help, reach out!*
 
 </details>
+
+### Post-Installation Setup
+
+Okay, now at this point of the setup, you have been interacting with this VM through the browser, through the Console tab. If that is your preference, you can continue to do this lab in that experience, but in my personal preference, I very much enjoy either my own machine and to RDP into client (specifically for Windows).
+
+I recommend you to use RDP instead of the browser in case of compatibility issues and overall better user experience.
+
+The following steps will explain you how to connect this device to the internet, setting an IP and enabling remote desktop.
+
+So first, now that your VM has finished setting up, let's login to your Administrator account you just setup for yourself.
+
+You might notice that your machine although you assigned virtual i/o drivers before hand is still having internet connectivity issues.
+
+That is okay, we will resolve that right now.
+
+Go ahead and open file explorer and navigate to the same virtio-win virtual CD Drive
+
+![File explorer showing virtio-win CD drive](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/15.png)
+
+scroll through the drive
+
+![Scrolling through the drive contents](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/16.png)
+
+find `virtio-win-gt-x64.msi` and run that installer
+
+![Running the virtio-win-gt-x64.msi installer](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/17.png)
+
+Proceed with next and accept the EULA
+
+![Installer EULA screen](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/18.png)
+
+Now after accepting the EULA, you will prompted with installing many different features,
+
+The following feature we are looking to add is marked as "Network", once you select it, click next.
+
+![Selecting Network feature in installer](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/19.png)
+
+Then click install.
+
+![Clicking install](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/20.png)
+
+After a Windows Pop-up will occur asking if you want to make your PC discoverable, you can click yes.
+
+![Windows discoverable PC pop-up](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/21.png)
+
+![Windows discoverable PC pop-up part 2](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/22.png)
+
+Now you the red internet icon you are seeing at the bottom, should have disappeared and your machine should look like you have internet now.
+
+A way to make sure your machine is reachable through the Internet, Open up Command Prompt
+
+Use `Win + R` or Windows Key and type "run" into Search to open the Run Page
+
+![Opening Run dialog](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/23.png)
+
+Program we want to open is `cmd.exe` and click ok
+
+![Running cmd.exe](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/24.png)
+
+Now that we have the Command Prompt open, lets ping a well known source that is reliably online, Google.
+
+type into your command prompt `ping google.com`
+
+Expected results are 4 packets sent with 100% received and 0% loss
+
+![Pinging google.com in command prompt](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/25.png)
+
+Now that we are aware this device is able to reach the actual Internet, now lets figure its local ip address to RDP into the machine.
+
+In the same command prompt box type in `ipconfig`
+
+![Running ipconfig in command prompt](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/26.png)
+
+Now that you see all these addresses, the one we are looking for is IPv4 Address, for my current machine its `192.168.1.116`
+
+This IP address is specific to this Virtual Machine and the way
+
+Now you need to understand that this IP address is local to the "Router" you are connected to. In your case we provision a virtual pfSense router to your pod that has an IP Address to the router, typically formatted in `172.16.x.x`, meaning that is your external address. But locally when you are connected to that LAN of this network, you are accessible as `192.168.1.116`, but externally your machine is reached as `172.16.x.116`. The `x` part in that external address will depend on your pod number, typically represented as `10xx_windows_ad_splunk_lab`. taking that `xx` in the pod number will be part of your WAN address. Even if you still cannot find out what your pod number is, you can remote into your virtual router and look at the WAN address that first comes up (If it says `172.16.1.1`, click enter to refresh the page and a different WAN should appear)
+
+This was a bit of a tangent and very surface level understanding on how the router connects, I hope I will shorten it and explain it better later.
+
+If you think you understand how to access the machine externally, try pinging your Windows VM from your own device while connected to the vpn.
