@@ -253,7 +253,7 @@ If you think you understand how to access the machine externally, try pinging yo
 
 </details>
 
-At this point of the lab, you should have a ready Windows Server 2019 Machine and have an understanding of how the networking works within your deployed pod. This part of the lab will now focus on setting up your domain and will be more hands-on.
+At this point of the lab, you should have a ready Windows Server 2019 Machine and have an understanding of how the networking works within your deployed pod. This next part of the lab will now focus on setting up your domain and will be more hands-on and less of a tutorial.
 
 ### Server Manager Configuration
 
@@ -290,6 +290,108 @@ At this point of the lab, you should have a ready Windows Server 2019 Machine an
 ### Installing Server Roles and Features
 
 <details>
-<summary>1. Now that you have browsed around, locate the <strong>Manage > Add Roles and Features</strong> button at the top right of Server Manager and install the following items:</summary>
+<summary>1. Now that you have browsed around, locate the <strong>Manage > Add Roles and Features</strong> button at the top right of Server Manager.</summary>
+
+Install the following server roles and features:
+- **Active Directory Domain Services**
+- **Active Directory Federation Services** 
+- **Active Directory Lightweight Directory Services**
+- **Active Directory Rights Management Services**
+- **DNS Server**
 
 </details>
+
+<details>
+<summary>2. Proceed through the Add Roles and Features Wizard, accepting any dependency services that are required.</summary>
+
+> **Note:** The wizard may prompt you to install additional features that are dependencies for the roles you selected. Accept these to ensure proper functionality.
+
+</details>
+
+<details>
+<summary>3. Once the feature installation completes, restart your server.</summary>
+
+> After restarting, your Server Manager may show red indicators - this is normal and expected at this stage.
+
+</details>
+
+### Promoting to Domain Controller
+
+<details>
+<summary>1. We are going to configure this server step by step to handle all the issues. Open the <strong>AD DS</strong> tab and promote this machine to being a Domain Controller.</summary>
+
+> **Note:** You will likely see a yellow message saying "configuration required" - this is what we're addressing now.
+
+</details>
+
+<details>
+<summary>2. When you attempt to promote this machine to a Domain Controller, an <strong>Active Directory Domain Services Configuration Wizard</strong> should appear. Work through the wizard.</summary>
+
+> Continue through the initial setup screens of the configuration wizard.
+
+</details>
+
+<details>
+<summary>3. When it comes to choosing your domain, use a similar naming style as we used for the machine names. Create a new forest and set your domain to <strong>FirstInitialLastName.soc</strong> (e.g., <code>tphao.soc</code>).</summary>
+
+> **Important:** This domain name will be used throughout your other DNS services like Splunk later in the lab.
+
+</details>
+
+<details>
+<summary>4. Continue through the wizard and complete promoting this VM to being a Domain Controller.</summary>
+
+> Follow the remaining prompts in the wizard, accepting the default settings unless you have specific requirements.
+
+</details>
+
+### Post-Promotion Configuration
+
+<details>
+<summary>1. Once promotion is complete, a restart will occur where the Group Policy Client gets installed. You should see a user appear with the first part of the root domain you chose (e.g., <code>JMama\ADMINISTRATOR</code>).</summary>
+
+> Log in with the password you set beforehand - this is now your Administrator account for your Domain.
+
+</details>
+
+<details>
+<summary>2. Now that you have completed the domain setup, you can explore your domain by opening <strong>Active Directory Users and Computers</strong>.</summary>
+
+> Right-click and manage the new domain you created. You can see default created organizational units (OUs), users, group policy objects, etc.
+
+</details>
+
+### Lab Progress Check
+
+At this point in the lab, you should be proud of what you have accomplished:
+
+- ✅ Deployed a Windows Server 2019 Virtual Machine
+- ✅ Loaded necessary drivers for Virtual Hard Disk and Virtual Networking
+- ✅ Utilized the virtual router and 1:1 NAT to remotely access your machine
+- ✅ Set static names and IP addresses for VM stability
+- ✅ Installed Windows Server features like Active Directory Domain Services
+- ✅ Promoted the VM to a Domain Controller
+- ✅ Created a domain for clients to join
+
+### Final Verification
+
+<details>
+<summary>1. As a final check before continuing, open <strong>PowerShell</strong> and run the following command to verify domain membership:</summary>
+
+```powershell
+Get-CimInstance Win32_ComputerSystem | Select-Object Domain, PartOfDomain
+```
+
+Your results should look similar to this:
+
+```
+Domain    PartOfDomain
+------    ------------
+tphao.soc         True
+```
+
+</details>
+
+## What's Next?
+
+We are going to proceed with adding clients to this domain and joining Windows 10 client machines to our newly created domain!
