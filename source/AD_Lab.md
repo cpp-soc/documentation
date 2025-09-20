@@ -30,7 +30,7 @@ These Windows VMs should be generated from a template. If not, ensure you have f
 
 All these Virtual Machine's are going to be left in a setup phase, meaning you will be spending time download packages, setting passwords, etc.
 
-## Lab Setup: Primary Domain Controller
+## Primary Domain Controller
 
 Let's begin by configuring our first VM, which will serve as the Primary Domain Controller (PDC). For this guide, we are using a **Windows Server 2019** virtual machine.
 
@@ -359,6 +359,8 @@ Install the following server roles and features:
 
 > Right-click and manage the new domain you created. You can see default created organizational units (OUs), users, group policy objects, etc.
 
+> Let's open up the folder called Users and create a user inside there. I am going to call mine Test and use this as an account to test if my clients join the domain successfully and I can login under this domain.
+
 </details>
 
 ### Lab Progress Check
@@ -395,3 +397,81 @@ tphao.soc         True
 ## What's Next?
 
 We are going to proceed with adding clients to this domain and joining Windows 10 client machines to our newly created domain!
+
+## Lab Setup: Windows Client
+
+Now that you are experienced in deploying virtual machines in our environment, the instructions will be less guided and focus on specific goals and objectives.
+
+### Windows 10 Installation
+
+<details>
+<summary>1. Start up one of your two <strong>Windows 10</strong> virtual machines and proceed with completing the installation on the VM.</summary>
+
+> Follow the standard Windows 10 installation process. The steps should be familiar from the Windows Server installation you just completed.
+
+</details>
+
+### Client Configuration
+
+<details>
+<summary>1. Once Windows 10 boots, set a <strong>static IP</strong> for this machine to ensure network stability.</summary>
+
+> Use a different IP address than your Domain Controller, but within the same subnet (e.g., if your DC is `192.168.1.116`, use `192.168.1.117` for the client).
+
+</details>
+<details>
+<summary>2. Set a common name for this PC following our naming convention: <strong>FirstInitialLastName-client01</strong> (e.g., <code>JMama-client01</code>).</summary>
+
+> This naming convention helps maintain consistency across your lab environment and makes it easier to identify different machines.
+
+</details>
+
+### Joining the Domain
+
+<details>
+<summary>1. Now we are going to join the domain we created earlier (e.g., <code>JMama.soc</code>). Locate the field where you can join this computer to that domain.</summary>
+
+> **Hint:** Look in the System Properties under "Computer name, domain, and workgroup settings." You'll need to change from a workgroup to a domain.
+
+</details>
+<details>
+<summary>2. When prompted for credentials during the domain join process, use your Domain Administrator account.</summary>
+
+> Use the domain administrator credentials you set up on your Domain Controller (e.g., `JMama\Administrator`).
+
+</details>
+
+### Domain Login Testing
+
+<details>
+<summary>1. If configured correctly and joining the domain was successful, log out and log back in using the test account we created on the Domain Controller.</summary>
+
+> Switch from the local machine login to the domain login. You should be able to select your domain from the login screen and use the test account credentials.
+
+</details>
+<details>
+<summary>2. If you forgot your test account password, resetting it on the Domain Controller is easy - simply right-click the user in Active Directory Users and Computers and select "Reset Password".</summary>
+
+> This demonstrates the centralized user management capability of Active Directory.
+
+</details>
+
+### Verification
+
+<details>
+<summary>1. To verify successful domain join, open <strong>PowerShell</strong> on the client machine and run the domain verification command:</summary>
+
+```powershell
+Get-CimInstance Win32_ComputerSystem | Select-Object Domain, PartOfDomain
+```
+
+Your results should show:
+- **Domain**: Your domain name (e.g., `JMama.soc`)
+- **PartOfDomain**: `True`
+
+</details>
+
+Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
+
+Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
+
