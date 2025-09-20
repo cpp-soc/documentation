@@ -456,22 +456,5 @@ Now that you are experienced in deploying virtual machines in our environment, t
 
 </details>
 
-### Verification
-
-<details>
-<summary>1. To verify successful domain join, open <strong>PowerShell</strong> on the client machine and run the domain verification command:</summary>
-
-```powershell
-Get-CimInstance Win32_ComputerSystem | Select-Object Domain, PartOfDomain
-```
-
-Your results should show:
-- **Domain**: Your domain name (e.g., `JMama.soc`)
-- **PartOfDomain**: `True`
-
-</details>
-
-Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
-
 Congratulations! You now have a Windows 10 client successfully joined to your Active Directory domain. This client can now authenticate against your Domain Controller and access domain resources based on the permissions you configure.
 
