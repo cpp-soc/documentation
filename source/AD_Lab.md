@@ -155,63 +155,84 @@ You might notice that your machine although you assigned virtual i/o drivers bef
 
 That is okay, we will resolve that right now.
 
-Go ahead and open file explorer and navigate to the same virtio-win virtual CD Drive
+<details>
+<summary>1. Go ahead and open file explorer and navigate to the same virtio-win virtual CD Drive.</summary>
 
 ![File explorer showing virtio-win CD drive](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/15.png)
 
-scroll through the drive
+</details>
+<details>
+<summary>2. Scroll through the drive.</summary>
 
 ![Scrolling through the drive contents](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/16.png)
 
-find `virtio-win-gt-x64.msi` and run that installer
+</details>
+<details>
+<summary>3. Find <code>virtio-win-gt-x64.msi</code> and run that installer.</summary>
 
 ![Running the virtio-win-gt-x64.msi installer](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/17.png)
 
-Proceed with next and accept the EULA
+</details>
+<details>
+<summary>4. Proceed with next and accept the EULA.</summary>
 
 ![Installer EULA screen](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/18.png)
 
-Now after accepting the EULA, you will prompted with installing many different features,
-
-The following feature we are looking to add is marked as "Network", once you select it, click next.
+</details>
+<details>
+<summary>5. After accepting the EULA, you will be prompted with installing many different features. The feature we are looking to add is marked as "Network". Once you select it, click next.</summary>
 
 ![Selecting Network feature in installer](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/19.png)
 
-Then click install.
+</details>
+<details>
+<summary>6. Then click install.</summary>
 
 ![Clicking install](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/20.png)
 
-After a Windows Pop-up will occur asking if you want to make your PC discoverable, you can click yes.
+</details>
+<details>
+<summary>7. A Windows Pop-up will occur asking if you want to make your PC discoverable. You can click yes.</summary>
 
 ![Windows discoverable PC pop-up](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/21.png)
 
 ![Windows discoverable PC pop-up part 2](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/22.png)
 
+</details>
+
 Now you the red internet icon you are seeing at the bottom, should have disappeared and your machine should look like you have internet now.
 
-A way to make sure your machine is reachable through the Internet, Open up Command Prompt
+A way to make sure your machine is reachable through the Internet, Open up Command Prompt.
 
-Use `Win + R` or Windows Key and type "run" into Search to open the Run Page
+<details>
+<summary>1. Use <code>Win + R</code> or Windows Key and type "run" into Search to open the Run Page.</summary>
 
 ![Opening Run dialog](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/23.png)
 
-Program we want to open is `cmd.exe` and click ok
+</details>
+<details>
+<summary>2. The program we want to open is <code>cmd.exe</code>. Click OK.</summary>
 
 ![Running cmd.exe](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/24.png)
 
-Now that we have the Command Prompt open, lets ping a well known source that is reliably online, Google.
-
-type into your command prompt `ping google.com`
+</details>
+<details>
+<summary>3. Now that we have the Command Prompt open, lets ping a well known source that is reliably online, Google. Type into your command prompt <code>ping google.com</code>.</summary>
 
 Expected results are 4 packets sent with 100% received and 0% loss
 
 ![Pinging google.com in command prompt](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/25.png)
 
+</details>
+
 Now that we are aware this device is able to reach the actual Internet, now lets figure its local ip address to RDP into the machine.
 
-In the same command prompt box type in `ipconfig`
+<details>
+<summary>1. In the same command prompt box type in <code>ipconfig</code>.</summary>
 
 ![Running ipconfig in command prompt](https://www.cppsoc.xyz/assets/documentation/ad-lab/pdc/26.png)
+
+</details>
 
 Now that you see all these addresses, the one we are looking for is IPv4 Address, for my current machine its `192.168.1.116`
 
