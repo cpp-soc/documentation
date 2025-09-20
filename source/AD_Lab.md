@@ -394,7 +394,7 @@ tphao.soc         True
 
 </details>
 
-## What's Next?
+### What's Next?
 
 We are going to proceed with adding clients to this domain and joining Windows 10 client machines to our newly created domain!
 
@@ -417,6 +417,8 @@ Now that you are experienced in deploying virtual machines in our environment, t
 <summary>1. Once Windows 10 boots, set a <strong>static IP</strong> for this machine to ensure network stability.</summary>
 
 > Use a different IP address than your Domain Controller, but within the same subnet (e.g., if your DC is `192.168.1.116`, use `192.168.1.117` for the client).
+
+> Note for the DNS settings, set your primary DNS to be the same IP as your domain controller!
 
 </details>
 <details>
