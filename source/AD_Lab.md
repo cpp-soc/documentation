@@ -234,43 +234,62 @@ Now that we are aware this device is able to reach the actual Internet, now lets
 
 </details>
 
-Now that you see all these addresses, the one we are looking for is the IPv4 Address. In the example above, it is `192.168.1.116`.
+Now that you see all these addresses, the one we are looking for is IPv4 Address, for my current machine its `192.168.1.116`
 
-This address is the VM’s local IP on the pod LAN. Your pod also has a virtual pfSense router that exposes the pod to the SDC network with a `172.16.x.x` range. From outside the pod (for example, from your laptop on GlobalProtect), reach this VM at `172.16.x.116`. The value of `x` maps to your pod number (from `10xx_windows_ad_splunk_lab`, use `xx`). If you are unsure, log in to the pfSense console and check the WAN address shown at boot. If you initially see `172.16.1.1`, press Enter to refresh until the correct WAN appears.
+This IP address is specific to this Virtual Machine and the way
 
-> **Note:** This is a simplified overview of the routing. Key takeaway: use `172.16.x.116` from outside the pod and `192.168.1.116` from within the pod LAN.
+Now you need to understand that this IP address is local to the "Router" you are connected to. In your case we provision a virtual pfSense router to your pod that has an IP Address to the router, typically formatted in `172.16.x.x`, meaning that is your external address. But locally when you are connected to that LAN of this network, you are accessible as `192.168.1.116`, but externally your machine is reached as `172.16.x.116`. The `x` part in that external address will depend on your pod number, typically represented as `10xx_windows_ad_splunk_lab`. taking that `xx` in the pod number will be part of your WAN address. Even if you still cannot find out what your pod number is, you can remote into your virtual router and look at the WAN address that first comes up (If it says `172.16.1.1`, click enter to refresh the page and a different WAN should appear)
 
-<details>
-<summary>1. Connect to GlobalProtect.</summary>
-</details>
-<details>
-<summary>2. From your device, ping the VM’s external IP (<code>172.16.x.116</code>).</summary>
-</details>
-<details>
-<summary>3. If ping fails, re-check both the local (<code>192.168.x.x</code>) and external (<code>172.16.x.116</code>) IPs and how <code>x</code> is derived from your pod.</summary>
-</details>
+This was a bit of a tangent and very surface level understanding on how the router connects, I hope I will shorten it and explain it better later.
+
+If you think you understand how to access the machine externally, try pinging your Windows VM from your own device while connected to the GlobalProtect VPN. If this still does not work and you cannot ping your virtual machine from your physical machine, check the IP address and make sure you understand how we are getting each octet of the address.
+
+### Enabling Remote Desktop Access
 
 <details>
-<summary>1. In Proxmox, open the Windows VM console.</summary>
+<summary>1. If you can ping your machine from your physical machine, you should now know the address of the machine and can access it externally. Go back to Proxmox and open the console for the Windows VM one more time to enable Remote Desktop.</summary>
+
+> **Note:** You can access the machine using either the External IP of your VM or the actual Computer Name if you know it. You might encounter issues regarding Network Level Authentication, which must be disabled in the Remote Desktop settings.
+
 </details>
+
+At this point of the lab, you should have a ready Windows Server 2019 Machine and have an understanding of how the networking works within your deployed pod. This part of the lab will now focus on setting up your domain and will be more hands-on.
+
+### Server Manager Configuration
+
 <details>
-<summary>2. Open <em>System Properties &gt; Remote</em> and enable Remote Desktop.</summary>
+<summary>1. Open <strong>Server Manager</strong> and browse around to see what features are available in this Server edition of Windows.</summary>
+
+> From the Server Manager, you can see many different features typically not available on Home and even Pro editions of Windows.
+
 </details>
+
+### Setting Computer Name and Static IP
+
 <details>
-<summary>3. If you cannot connect due to Network Level Authentication, uncheck “Allow connections only from computers running Remote Desktop with Network Level Authentication.”</summary>
+<summary>1. Change the <strong>Computer name</strong> to something more recognizable so you can type in a name instead of remembering the IP Address when remoting in.</summary>
+
+> For the sake of this lab environment, we will have a consistent naming system for all clients. Rename your Windows VM to **FirstInitialLastName-DC01** (e.g., **JMama-DC01**) and then click **Apply**.
+
 </details>
 
-Connect via RDP using either:
-- The external IP (`172.16.x.116`), or
-- The computer name (after you rename it below).
+<details>
+<summary>2. Before restarting your computer, set a <strong>static IP</strong> for your machine to ensure that when you restart, the IP doesn't change and you can still remote back into the machine.</summary>
 
-At this point, you should have a ready Windows Server 2019 VM and a basic understanding of the pod networking.
+> **Tip:** If you are unsure about all the settings you need for the IPv4 configuration, running `ipconfig` in Command Prompt will help guide you with the current network settings.
 
-From here, you will create the domain and proceed in a more lab-style format.
+</details>
 
-Open *Server Manager* and review available features. Then:
-1. Rename the computer to FirstInitialLastName-DC01 (example: JMama-DC01) and click Apply.
-2. Configure a static IPv4 address that matches your pod network. Use `ipconfig` as a guide for subnet mask, default gateway, and DNS.
-3. Restart the VM to apply the changes.
+<details>
+<summary>3. After you set the computer name and static IP for your machine, restart your VM through Windows to ensure all settings are applied.</summary>
 
-Now that you have browsed around, locate the Manage > Add Roles and Features button at the top right of Server Manager and install the following items
+> This restart ensures that both the computer name change and static IP configuration take effect properly.
+
+</details>
+
+### Installing Server Roles and Features
+
+<details>
+<summary>1. Now that you have browsed around, locate the <strong>Manage > Add Roles and Features</strong> button at the top right of Server Manager and install the following items:</summary>
+
+</details>
