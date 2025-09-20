@@ -242,4 +242,156 @@ Now you need to understand that this IP address is local to the "Router" you are
 
 This was a bit of a tangent and very surface level understanding on how the router connects, I hope I will shorten it and explain it better later.
 
-If you think you understand how to access the machine externally, try pinging your Windows VM from your own device while connected to the vpn.
+If you think you understand how to access the machine externally, try pinging your Windows VM from your own device while connected to the GlobalProtect VPN. If this still does not work and you cannot ping your virtual machine from your physical machine, check the IP address and make sure you understand how we are getting each octet of the address.
+
+If you can ping your machine from your physical machine, you should now know the address of the machine and can access it externally. Now go back to Proxmox and (hopefully) for the last time open up the console for the Windows VM, and enable Remote Desktop. Once enabled, attempt to remote into your machine, the computer name can either be the External IP of your VM or actual Computer Name if you know it. You might run into issues regarding Network Level Authentication, you must disable that feature which is nested within the settings of where you first enabled Remote Desktop
+
+At this point of the lab, you should have a ready Windows Server 2019 Machine and have an understanding on how the networking works within your deployed pod.
+This part of the lab will now focus on on creating now setting up your domain and be more of a lab than tutorial.
+
+Open up *Server Manager* and browse around to see what you can do in this Server edition of Windows. From the *Server Manager*, you can see many different features typically not available on Home and even Pro editions of Windows.
+
+First thing we can do is change this *Computer name* to something more recognizable, so next time we remote in, we can just type in a name instead of remembering the IP Address. For the sake of this lab environment, we will have a consistent naming system for all the clients we interact with. Rename your Windows VM to FirstInitialLastName-DC01 (Ex: JMama-DC01) and then click Apply. 
+
+Before restarting your computer, lets also set a static IP for your machine to ensure that when we restart your machine, if the IP changes we cannot remote back into the machine. If you are unsure about all the settings you need to set regarding the IPv4 settings, looking at ipconfig in Command Prompt will help guide you. 
+
+After you set the computer name and a static ip for your machine, you should restart your VM through Windows to ensure all settings you just applied are set.
+
+Now that you have browsed around, locate the Manage > Add Roles and Features button at the top right of Server Manager and install the following items
+-
+## Lab: Prep the Primary Domain Controller (PDC)
+
+Goal: Reach the VM externally, RDP into it, rename it, set a static IP, and install core roles.
+
+<details>
+<summary>Task 1 — Verify external reachability</summary>
+
+- Objective: Confirm your host can reach the VM from the VPN.
+- Do:
+  - From your host (on GlobalProtect), ping the VM's external IP.
+  - On the VM, use ipconfig to understand its IPv4 and gateway.
+- Success: 4 replies, 0% loss.
+
+<details>
+<summary>💡 Networking Hints</summary>
+
+Your VM has two IP addresses:
+- **LAN IP** (192.168.x.x): Internal to your pod's virtual network
+- **WAN IP** (172.16.x.x): External address for accessing from your host
+
+The external IP follows this pattern: if your VM's LAN IP is `192.168.1.116`, your external IP is likely `172.16.x.116` where `x` matches your pod number.
+
+To find your pod number:
+- Check your pod name format: `10xx_windows_ad_splunk_lab`
+- The `xx` becomes part of your WAN address
+- Or check the pfSense router console for the WAN address
+
+</details>
+</details>
+
+<details>
+<summary>Task 2 — Enable Remote Desktop</summary>
+
+- Objective: RDP into the VM from your host.
+- Do:
+  - Enable Remote Desktop on the VM.
+  - Connect using the external IP or the computer name.
+- Success: You can open a remote session successfully.
+
+<details>
+<summary>💡 RDP Troubleshooting Hints</summary>
+
+If RDP connection fails:
+1. Ensure Remote Desktop is enabled in System Properties
+2. Temporarily disable Network Level Authentication (NLA)
+3. Check Windows Firewall settings
+4. Use the external WAN IP, not the LAN IP
+5. Try connecting with `Administrator` as the username
+
+</details>
+</details>
+
+<details>
+<summary>Task 3 — Rename the server</summary>
+
+- Objective: Apply the lab naming convention.
+- Do: Rename to FirstInitialLastName-DC01 (e.g., JMama-DC01). Do not reboot yet.
+- Success: System properties show the new name (pending restart).
+
+<details>
+<summary>💡 Naming Hints</summary>
+
+- Access via: System Properties > Computer Name tab > Change
+- Use format: FirstInitialLastName-DC01 (e.g., JSmith-DC01)
+- Click "Apply" but don't restart yet (save that for after static IP setup)
+
+</details>
+</details>
+
+<details>
+<summary>Task 4 — Configure a static IPv4</summary>
+
+- Objective: Ensure the server keeps a stable address.
+- Do:
+  - Set IPv4 address, subnet mask, and default gateway to match your network.
+  - Preferred DNS: use your gateway or an external resolver temporarily (you will point it to this server after DNS is installed).
+- Success: ipconfig displays the static IP you configured.
+
+<details>
+<summary>💡 Static IP Configuration Hints</summary>
+
+Before setting static IP, run `ipconfig` to see current settings:
+- **IP Address**: Use the current DHCP-assigned IP
+- **Subnet Mask**: Typically `255.255.255.0`
+- **Default Gateway**: Usually `192.168.1.1`
+- **DNS**: Use gateway (192.168.1.1) or public DNS (8.8.8.8) temporarily
+
+Access via: Network and Sharing Center > Change adapter settings > Right-click network adapter > Properties > IPv4
+
+</details>
+</details>
+
+<details>
+<summary>Task 5 — Reboot and validate</summary>
+
+- Objective: Apply changes and confirm access.
+- Do: Reboot the VM. RDP back in using the new name or static IP.
+- Success: RDP works post-reboot and the new name/IP persist.
+
+<details>
+<summary>💡 Validation Hints</summary>
+
+After reboot:
+- Verify computer name: `hostname` in command prompt
+- Verify static IP: `ipconfig` 
+- Test RDP: Connect from your host using the computer name or IP
+- Test internet: `ping google.com`
+
+</details>
+</details>
+
+<details>
+<summary>Task 6 — Install core roles</summary>
+
+- Objective: Prepare the server for domain services.
+- Do: Server Manager > Manage > Add Roles and Features:
+  - Active Directory Domain Services (AD DS)
+  - DNS Server
+  - Group Policy Management
+- Success: Roles show as Installed in Server Manager.
+
+<details>
+<summary>💡 Role Installation Hints</summary>
+
+Installation wizard steps:
+1. **Before You Begin**: Click Next
+2. **Installation Type**: Role-based or feature-based installation
+3. **Server Selection**: Select your server
+4. **Server Roles**: Check the boxes for AD DS and DNS Server
+5. **Features**: Group Policy Management will be under "Remote Server Administration Tools"
+6. Follow prompts and install
+
+Note: You may see warnings about DNS delegation - ignore these for now.
+
+</details>
+</details>
