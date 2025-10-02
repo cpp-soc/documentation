@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'SOC Documentation'
-copyright = '2025, CPP Student Security Operations Center'
-author = 'CPP Student Security Operations Center'
+project = 'Cal Poly Pomona - Student-led Security Operations Center'
+copyright = '2025, Cal Poly Pomona - Student-led Security Operations Center'
+author = 'Cal Poly Pomona - Student-led Security Operations Center'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -25,4 +25,5 @@ master_doc='index'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-#html_static_path = ['_static']
+html_static_path = ['_static']
+html_css_files = ['custom.css']
