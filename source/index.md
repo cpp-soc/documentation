@@ -24,5 +24,6 @@ AD + Splunk Lab <AD_Lab>
 :maxdepth: 2
 
 Implementation of Missile Map <missile_map>
-How/Why does the Security Operation Center monitor so many machines? <syslog>
+The First SOC-Syslog Incident <syslog>
+The Fix of SOC-Syslog <rebuild-soc-syslog>
 ```
