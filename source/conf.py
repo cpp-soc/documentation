@@ -27,3 +27,15 @@ master_doc='index'
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_css_files = ['custom.css']
+
+# lets not cache, especially since im doing lots of css now
+html_use_smartypants = False
+html_add_permalinks = None
+
+html_context = {
+    'meta_tags': '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" />'
+}
+
+html_file_suffix = '.html'
+html_copy_source = False
+html_show_sourcelink = False
