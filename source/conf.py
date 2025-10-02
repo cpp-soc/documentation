@@ -9,6 +9,7 @@
 project = 'Cal Poly Pomona - Student-led Security Operations Center'
 copyright = '2025, Cal Poly Pomona - Student-led Security Operations Center'
 author = 'Cal Poly Pomona - Student-led Security Operations Center'
+logo = 'https://www.cppsoc.xyz/_next/image?url=%2Flogo3.png&w=96&q=75'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
