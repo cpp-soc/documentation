@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Cal Poly Pomona - Student-led Security Operations Center'
+project = 'Student SOC Documentation'
 copyright = '2025, Cal Poly Pomona - Student-led Security Operations Center'
-author = 'Cal Poly Pomona - Student-led Security Operations Center'
+author = 'Collaborators @ Student SOC'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
