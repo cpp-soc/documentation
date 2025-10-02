@@ -40,6 +40,8 @@ To follow along with this lab, you can use the Student Data Center to provision 
 
 7.  Power on the VMs provided to you.
 
+Note: Credentials for all the Virtual Machines provisioned to you in this lab will be located in the Summary tab when you are on Proxmox!
+
 You are now ready to start the lab.
 
 ## Tips
@@ -51,6 +53,7 @@ You are now ready to start the lab.
 
 > **Tip #2: External Accessibility**
 > On top of that, with that pfSense router provisioned to you, your VMs in your resource pool are 'externally' accessible! 'Externally' in quotes because anyone on the GlobalProtect VPN can access it if they know the subnet and IP of your machines. This is not 'externally' as in on the WAN of the GlobalProtect router. So using the `scp` command-line in combination with knowing how the router is configured will allow you to do many more things outside of the 'Proxmox Virtual Environment', but allow you to SSH into your Virtual Machines and or RDP into your Windows Clients.
+
 
 ## Task 1 - Setting up Splunk Enterprise Server
 

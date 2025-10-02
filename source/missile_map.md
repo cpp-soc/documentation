@@ -78,6 +78,13 @@ index="netfw" sourcetype="pan:globalprotect" (portal="gp-mgmt" OR portal="gp-use
 | eval start_lat=lat, start_lon=lon, end_lat=34.0597, end_lon=-117.8200 
 | stats count by action, src_user, src_ip, start_lat, start_lon, end_lat, end_lon
 ```
+*As of 9/23, 'sourcetype' was no longer a applicable field to search by or to be included when we searched on Splunk. It could be fixed, but below is the refined search query.
+```splunk
+index="netfw" (portal="gp-mgmt" OR portal="gp-user") event_id="gateway-connected" src_user=*
+| iplocation src_ip 
+| eval start_lat=lat, start_lon=lon, end_lat=34.0597, end_lon=-117.8200 
+| stats count by action, src_user, src_ip, start_lat, start_lon, end_lat, end_lon
+```
 
 Let’s break down what this does:
 -   **Base search**: We search the firewall logs (`index="netfw"`) of type `pan:globalprotect` for events where the `portal` field is either `gp-mgmt` or `gp-user` (i.e. the connection-establishment stage for either portal) and `event_id="gateway-connected"`. We also ensure `src_user=*` to pick up only events tied to a user account (excluding any system or empty entries).
