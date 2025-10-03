@@ -2,7 +2,16 @@
 
 Context: if you are reading this in a specific order, these events occur after we remediated the SOC-Syslog server not coming back online after rebooting it. The TLDR is that logs that were being sent from the other nodes were being stored on the OS Partition. When it eventually filled up, the OS refuse to write anymore data and essentially entered in a read-only state. We entered the emergency shell and moved the entire log file into another partition originally intended for where the logs should be stored. We restarted the server and everything came back online. If you can tell this solution was only temporary as all we did was move all the logs out of the OS partition and just wait before it filled back up.
 
-So in this write-up we will document and showcase our processes of how we redesigned how logs are stored and saved on our server.
+So in this write-up we will document and showcase our  former processes and how we redesigned how logs are stored and saved on our server.
+
+In its current interation, our SOC-Syslog server was to accept logs from the physical nodes from our ESXI Cluster of which hosted four physical nodes and our Palo Alto Firewall, specifically the VPN Connections.
+
+All these logs would write locally onto our Syslog machine, nothing with the dedicated TrueNAS, just logs written locally and sent out to our Splunk Server. The logs specifically were written to the root directory (rhel-root) of our Operating System of which is partitioned to about 70 GB of space. So it was inevitable of all the logs we were collecting from the physical nodes and Palo Alto Firewall would eventually fill that up. 
+
+Eventually it did fill up and eventually set the operating system to basically a read only state and when we eventually restarted the server, it would not boot without specific boot loader arguments. Once we entered the emergency shell, we were able to move single message file containing all the logs from the nodes to a different partition on the same machine. But this solution was only tempoary because once we restarted the server and processes like rsyslog started up again, the directory only would start filling up, which meant we were on a timer. We needed to first figure out a better solution of where to store our logs and second 
+
+Rsyslog
+
 
 In the first attempt of the rebuild we wanted to simplify the process by editing the rsyslog.conf and changing this line
 
