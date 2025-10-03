@@ -2,13 +2,13 @@
 
 ## Context: What is SOC-Syslog?
 
-SOC-Syslog is a dedicated server in the SOC Network that serves as a central collection point for all Linux-based servers to ingest logs to. We use a protocol called RSyslog, an open-source software utility used on UNIX and Unix-like computer systems for forwarding log messages in an IP network. After logs are ingested to SOC-Syslog, an application called the Splunk Universal Forwarder forwards all these logs to our Splunk Server for indexing.
+SOC-Syslog is a dedicated server in the SOC Network serving as the central collection point for logs from all of our Linux-based servers. We use RSyslog, an open-source program for UNIX and Unix-like computer systems, to forward log messages in our IP network. After logs are ingested to SOC-Syslog, an application called the Splunk Universal Forwarder forwards all these logs to our Splunk Server for indexing.
 
 ## Problem Description
 
-The Security Operations Center was completing a routine search on logs being ingested to our Splunk Server. They noticed a decrease in logs being ingested daily. The SOC discovered that on **September 17, 2025**, the Splunk Universal Forwarder stopped forwarding logs from SOC-Syslog to the Splunk Server. 
+The Security Operations Center was completing a routine search on logs being ingested to our Splunk Server. We noticed a decrease in the number of daily ingested logs. The SOC discovered that on **September 17, 2025**, the Splunk Universal Forwarder stopped forwarding logs from SOC-Syslog to the Splunk Server. 
 
-The SOC decided to remotely SSH into the SOC-Syslog server to check if logs were being successfully sent from the nodes to SOC-Syslog. They confirmed that logs stopped forwarding on September 17, 2025. By the time the SOC realized there were ingestion issues on SOC-Syslog, it had been a few days since SOC-Syslog was essentially non-operational. The server was still online but essentially in a read-only state.
+We SSH'ed into the SOC-Syslog server to check if logs were being sent from the nodes to SOC-Syslog. We confirmed the logs stopped being forwarded on September 17, 2025. By the time we realized there were ingestion issues on SOC-Syslog, it had been days since SOC-Syslog was non-operational. The server was online but essentially in a read-only state.
 
 ![Zero logs ingested on September 17, 2025](https://www.cppsoc.xyz/assets/documentation/syslog/3.png)
 
