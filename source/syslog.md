@@ -10,7 +10,7 @@ The Security Operations Center was completing a routine search on logs being ing
 
 We SSH'ed into the SOC-Syslog server to check if logs were being sent from the nodes to SOC-Syslog. We confirmed the logs stopped being forwarded on September 17, 2025. By the time we realized there were ingestion issues on SOC-Syslog, it had been days since SOC-Syslog was non-operational. The server was online but essentially in a read-only state.
 
-![Zero logs ingested on September 17, 2025](https://www.cppsoc.xyz/assets/documentation/syslog/3.png)
+> **Note:** Insert picture of 0 logs on that day
 
 ## Initial Remediation Attempts
 
@@ -54,7 +54,7 @@ systemd.unit=multi-user.target
 
 This process allowed us to see all the system logs that were occurring on system startup, showcasing many services that failed to start.
 
-![Failed dbus services during boot](https://www.cppsoc.xyz/assets/documentation/syslog/1.jpg)
+> **Note:** Insert picture of failed dbus services
 
 After entering the emergency shell, we were able to boot into the operating system and run commands.
 
@@ -68,7 +68,7 @@ df -h
 
 This command displayed all the filesystems on the operating system, and concerns immediately arose. The directory for the operating system (RHEL 9.5) was installed under `/dev/mapper/rhel-root` with 70GB allocated space, but **only 20KB was available**.
 
-![Disk usage showing minimal space on rhel-root](https://www.cppsoc.xyz/assets/documentation/syslog/2.jpg)
+> **Note:** Insert picture of `df -h` with barely any space on above directory
 
 Initially, we assumed this was reserved system space and didn't understand this was the actual OS partition that was full.
 
@@ -103,5 +103,7 @@ After moving the file:
 ## Lessons Learned
 
 - Monitor disk space on critical logging infrastructure
+- Implement log rotation policies for `/var/log/messages`
+- Configure alerts for disk space thresholds
 - Utilize dedicated storage partitions (like `/mnt/storage`) for log collection
-- In a future write-up we will showcase how we revamped our logging infrastructure entirely!
+
