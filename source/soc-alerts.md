@@ -14,7 +14,7 @@ These three event types enable us to monitor connections into our infrastructure
 
 ## How Are Alerts Configured?
 
-Alerts in Splunk function as scheduled searches that run periodically on the SIEM. When a new event is triggered or matching results appear, we activate a Discord webhook to send a structured message containing the search results to our `#incident-alerts` channel. Each event type has a unique, tailored webhook configuration.
+Alerts in Splunk function as scheduled searches that run periodically on the SIEM. When a new event is triggered or matching results appear, we activate a Discord webhook to send a structured message containing the search results to our `#incident-alerts` channel. Each event type has a unique, tailored message with a dynamic severity case tied to the event.
 
 **Examples of alerts:**
 
