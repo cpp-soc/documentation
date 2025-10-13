@@ -82,13 +82,85 @@ The severity indicator displayed below the connection details is a default flag 
 
 ### Alert: WinEventLogs:Security Monitoring EventID 4720
 
-*[Content to be added]*
+This alert monitors Active Directory for new user account creation events, helping us track when accounts are provisioned in our infrastructure.
+
+**Search Query:**
+
+```splunk
+index=* source=WinEventLog:Security sourcetype=WinEventLog EventCode=4720
+| eval created_user=coalesce(New_Account_Account_Name, SAM_Account_Name, Account_Name, user, user_name)
+| eval created_domain=coalesce(New_Account_Domain, Account_Domain, dest_nt_domain, Subject_Account_Domain)
+| eval created_by=coalesce(Subject_Account_Name, src_user, src_user_name)
+| eval dc=coalesce(ComputerName, dvc_nt_host, dest_nt_host, dvc, host)
+| where isnotnull(created_user) AND NOT like(created_user, "%$")
+| table _time created_user created_domain created_by dc
+| sort - _time
+```
+
+**Query Breakdown:**
+
+The query searches across all indexes for Windows Security Event Logs with `EventCode=4720`, which is generated whenever a user account is created in Active Directory.
+
+The `coalesce()` functions normalize field names across different log formats and Windows versions, ensuring we capture the relevant information regardless of how it's labeled in the raw logs. Specifically:
+- `created_user` extracts the newly created account name
+- `created_domain` identifies the domain where the account was created
+- `created_by` captures who performed the account creation
+- `dc` identifies the domain controller that logged the event
+
+The `where` clause filters out system accounts (ending with `$`) and ensures we only alert on legitimate user account creations.
+
+**Alert Details:**
+
+Each alert provides essential information about the account creation event:
+- Timestamp of when the account was created
+- Created username
+- Domain where the account resides
+- Administrator who created the account
+- Domain controller that processed the creation
+
+This visibility helps us maintain accountability for account provisioning and detect unauthorized account creation attempts.
 
 ---
 
 ### Alert: WinEventLogs:Security Monitoring EventID 4726
 
-*[Content to be added]*
+This alert monitors Active Directory for user account deletion events, ensuring we maintain visibility over account lifecycle management and detect unauthorized removals.
+
+**Search Query:**
+
+```splunk
+index=* source=WinEventLog:Security sourcetype=WinEventLog EventCode=4726
+| eval deleted_user=coalesce(Target_Account_Name, Account_Name, user, user_name)
+| eval deleted_domain=coalesce(Target_Account_Domain, Account_Domain, dest_nt_domain, Subject_Account_Domain, src_nt_domain)
+| eval deleted_by=coalesce(Subject_Account_Name, src_user, src_user_name)
+| eval dc=coalesce(ComputerName, dvc_nt_host, dest_nt_host, dvc)
+| where isnotnull(deleted_user) AND NOT like(deleted_user, "%$") 
+| table _time deleted_user deleted_domain deleted_by dc
+| sort - _time
+```
+
+**Query Breakdown:**
+
+The query searches across all indexes for Windows Security Event Logs with `EventCode=4726`, which is generated whenever a user account is deleted from Active Directory.
+
+Similar to the account creation alert, the `coalesce()` functions normalize field names to ensure consistent data extraction:
+- `deleted_user` extracts the name of the deleted account
+- `deleted_domain` identifies the domain where the account existed
+- `deleted_by` captures who performed the account deletion
+- `dc` identifies the domain controller that logged the event
+
+The `where` clause filters out system accounts (ending with `$`) to focus on user account deletions that require tracking and review.
+
+**Alert Details:**
+
+Each alert provides critical information about the account deletion event:
+- Timestamp of when the account was deleted
+- Deleted username
+- Domain where the account existed
+- Administrator who deleted the account
+- Domain controller that processed the deletion
+
+This monitoring enables us to track account offboarding, detect unauthorized deletions, and maintain an audit trail for compliance purposes.
 
 ---
 
