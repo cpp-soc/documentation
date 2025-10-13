@@ -26,4 +26,5 @@ AD + Splunk Lab <AD_Lab>
 Implementation of Missile Map <missile_map>
 The First SOC-Syslog Incident <syslog>
 The Fix of SOC-Syslog <rebuild-soc-syslog>
+How the SOC receives alerts? <soc-alerts>
 ```
