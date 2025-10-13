@@ -97,6 +97,8 @@ index=* source=WinEventLog:Security sourcetype=WinEventLog EventCode=4720
 | sort - _time
 ```
 
+![Windows AD Account Creation](https://cppsoc.xyz/assets/documentation/soc-alerts/2.png)
+
 **Query Breakdown:**
 
 The query searches across all indexes for Windows Security Event Logs with `EventCode=4720`, which is generated whenever a user account is created in Active Directory.
@@ -138,6 +140,8 @@ index=* source=WinEventLog:Security sourcetype=WinEventLog EventCode=4726
 | table _time deleted_user deleted_domain deleted_by dc
 | sort - _time
 ```
+
+![Windows AD Account Deletion](https://cppsoc.xyz/assets/documentation/soc-alerts/3.png)
 
 **Query Breakdown:**
 
