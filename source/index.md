@@ -1,8 +1,6 @@
 # California State Polytechnic University, Pomona - Security Operations Center 
-# California State Polytechnic University, Pomona - Security Operations Center 
 
-Here lies the public directory and documentation of the Student run Security Operations Center at the California Polytechnic State University, Pomona.
-Here lies the public directory and documentation of the Student run Security Operations Center at the California Polytechnic State University, Pomona.
+Welcome to the public directory and documentation of the Student run Security Operations Center at the California Polytechnic State University, Pomona.
 
 ```{toctree}   
 :caption: 'Start Here!'
