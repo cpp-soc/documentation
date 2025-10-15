@@ -23,3 +23,13 @@ The First SOC-Syslog Incident <syslog>
 The Fix of SOC-Syslog <rebuild-soc-syslog>
 AD + Splunk Lab <AD_Lab>
 ```
+
+```{toctree}   
+:caption: 'SOC Write-Up'
+:maxdepth: 2
+
+Implementation of Missile Map <missile_map>
+The First SOC-Syslog Incident <syslog>
+The Fix of SOC-Syslog <rebuild-soc-syslog>
+How the SOC receives alerts? <soc-alerts>
+```
