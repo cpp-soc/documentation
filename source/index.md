@@ -11,7 +11,20 @@ Volunteering Opportunities <Volunteers>
 Splunk <Splunk>
 ```
 
+```{toctree}   
+:caption: 'SOC Lab Content'
+:maxdepth: 2
+
 Getting Started (Updated August 2025) <getting_started>
+```
+
+```{toctree}   
+:caption: 'SOC Lab Content'
+:maxdepth: 2
+
+Getting Started (Updated August 2025) <getting_started>
+Splunk Lab <Splunk_Lab>
+AD + Splunk Lab <AD_Lab>
 ```
 
 ```{toctree}   
