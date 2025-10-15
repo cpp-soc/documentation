@@ -2,7 +2,7 @@
 
 ## Background
 
-After a major rebuild of the infrastructure at the Student Data Center, the Student Security Operations Center (SOC) found that many legacy monitoring processes no longer applied. One critical need was auditing GlobalProtect VPN activity to understand who was connecting to the network and from where. The SOC wanted better visibility into VPN usage and potential anomalies, especially given the changes post-rebuild. To achieve this, they leveraged Splunk SIEM for log collection and even integrated a special map visualization to track user VPN connections geographically. 
+After a major rebuild of the infrastructure at the Student Data Center, the Student Security Operations Center (SOC) discovered many legacy monitoring processes no longer applied. One critical need was auditing GlobalProtect VPN activity to understand who was connecting to the network and from where. The SOC wanted better visibility into VPN usage and potential anomalies, especially given the changes post-rebuild. To achieve this, they leveraged Splunk SIEM for log collection and even integrated a special map visualization to track user VPN connections geographically. 
 
 ## Initial Challenges with VPN Log Queries
 
