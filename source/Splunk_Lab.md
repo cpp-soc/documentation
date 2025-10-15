@@ -112,9 +112,8 @@ Just because you installed it doesn't mean it's running.
     You will be prompted to accept the license and create an administrator account.
 
 4.  **Access Splunk Web:**
-    You can access the Web Browser through one of two ways, opening up through one of the two other 'client' VMs or on your device (whilst connected to GlobalProtect)
-    Open a web browser on your VM and go to `http://<IP Address Internal/External>:8000`. Log in with the credentials you just created.
-    *Hint: For external, look up NAT 1-1 and your might need to remote into your pfSense Router!*
+    Open a web browser on your VM and go to `http://localhost:8000`. Log in with the credentials you just created.
+
 </details>
 </details>
 
