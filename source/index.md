@@ -17,6 +17,7 @@ Splunk <Splunk>
 Getting Started (Updated August 2025) <getting_started>
 Splunk Lab <Splunk_Lab>
 AD + Splunk Lab <AD_Lab>
+Splunk CTF Lab <Splunk_Lab_CTF>
 ```
 
 ```{toctree}   
