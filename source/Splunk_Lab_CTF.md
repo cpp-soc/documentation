@@ -1,4 +1,4 @@
-# Splunk CTF Lab 
+# Splunk CTF Lab — SOC Investigation & SPL Mastery
 
 ## Overview
 
@@ -26,47 +26,50 @@ You are provided access to a Splunk server where logs will be ingested from eith
 - `user: splunklab`  
 - `pass: splunk123`
 
-### Virtual Machine Setup (Option 1)
+**Virtual Machine Setup (Option 1)**
 
 | Machine | Purpose | IP | Credentials |
 |--------|---------|----|-------------|
-| Splunk Server | Indexes logs & provides UI | 192.168.1.112 | splunklab / splunk123 |
+| Splunk Server | Indexes logs & provides UI | 192.168.1.112 | splunk-server / splunk123 |
 | Web Server (Ubuntu) | Generates logs via attacks | 192.168.1.113 | client / soc123 |
 | Attacker (Kali) | Performs attacks | 192.168.1.115 | kali / kali123 |
 
 Web logs are forwarded from Ubuntu to Splunk using the Universal Forwarder.
 
-### Dataset Import Setup (Option 2)
+**Dataset Import Setup (Option 2)**
 
 Only the Splunk server is required. Intrusion logs are imported manually into Splunk.
 
+![Simplified_Illustration](https://media.discordapp.net/attachments/1421187322023514232/1422494824644349952/bruh.jpg?ex=6919860a&is=6918348a&hm=dd59d837ebe27a3fac170b0073594e1d4f3222def5f065d993ab0ec3df23146f&=&format=webp&width=2063&height=1160)
 ---
 
-# Option 1  
-# Simulated Attack Environment with Virtual Machines
+## Option 1 - Simulated Attack Environment with Virtual Machines
 
-## Overview
+**Overview**
 
 This option provides a realistic SOC experience using a 3-VM attack environment. Participants use SPL to investigate attacks carried out by a Kali attacker against an Ubuntu web server.
 
-### What You Need
+**What You Need**
 
 - Kali Linux VM (attacker)  
 - Ubuntu Web Server with Splunk Universal Forwarder  
 - Splunk Enterprise Server  
 
-### What Happens
+**What Happens**
 
 1. Kali launches attacks (bruteforce, scans, SQL injection, etc.).  
 2. Ubuntu Web Server logs the activity.  
 3. Logs are forwarded to Splunk.  
 4. You investigate to find hidden CTF flags and answer questions.
 
+**Dataset Details**
+- Data should be indexed under:
+`index=web_log`
 ---
 
-## CTF Challenge Questions (Option 1)
+**CTF Challenge Questions (Option 1)**
 
-### **Easy Challenges (50 pts each)**
+### **Easy Challenges**
 
 ---
 
@@ -74,7 +77,7 @@ This option provides a realistic SOC experience using a 3-VM attack environment.
 Many flags were placed in a query parameter and requested from the webserver by the attacker. However, only one is *legit*. Find it.   
 
 <details><summary>Hint</summary>
-Look for `update.flag` in the URI.
+Look for `update.flag` in the URI field.
 </details>
 
 <details><summary>Query</summary>
@@ -105,7 +108,7 @@ update.flag{SUSPICIOUS_USERAGENT}
 
 ---
 
-## **Medium Challenges (100 pts each)**
+## **Medium Challenges**
 
 ---
 
@@ -162,7 +165,7 @@ flag{CVE-2014-6278}
 
 ---
 
-### **6) Web Scanner / Tool Identification**  
+### **6) Web Scanner Identification**  
 Identify the four scanning tools used against the server based on User-Agent strings. Furthermore, identify how many times each were utilized and list them in order from most used to least used.  Format the flag in the following format: flag{tool1_tool2_tool3_tool4}. 
 
 **Note:**  
@@ -184,12 +187,15 @@ flag{Hydra_Nikto_Nmap_SQLMap}
 
 ---
 
-## **Hard Challenges (150 pts each)**
+## **Hard Challenges**
 
 ---
 
 ### **7) Encoded Flag (Hex/URL Encoding)**  
 The attacker tried to hide a flag by URL encoding or hex-encoding it. Find the encoded hex string and decode the flag.
+
+**Note:**  
+An external tool is necessary to decode the hex string.
 
 <details><summary>Hint</summary>
 %75%70%64....</details>
@@ -219,29 +225,32 @@ index=web_log (uri="*update.flag*" OR useragent="*update.flag*" OR referer="*upd
 
 ---
 
-# Option 2  
-# Importing a Pre-Existing Dataset (Cisco Firewall Intrusion Logs)
+## Option 2  - Importing a Pre-Existing Dataset (Cisco Secure Firewall Threat Defense Intrusion Events)
 
-## Overview
+**Overview**
 
 This option uses a static dataset imported into Splunk. It is easier to set up but less dynamic than Option 1.
 
-### What You Need
+**What You Need**
 
 - Splunk Server `192.168.1.112`  
-- Cisco Firewall Intrusion Event Dataset  
+- Cisco Secure Firewall Threat Defense Intrusion Event Logs. 
 
-### Dataset Details
+**Dataset Details**
 
-Data is indexed under:
-
-**`index=main sourcetype=Sample_Data_Test`**
-
+- The dataset will be located in the home directory:
+```
+/home/splunk-server/intrusion_events.log
+```
+- Import the data using Splunk Web and the  "Add Data" option located in the home page.
+- Name the data: `Sample_Data_Test`
+- Data should be indexed under:
+`index=main  sourcetype=Sample_Data_Test`
 ---
 
-# CTF Challenge Questions (Option 2)
+## CTF Challenge Questions (Option 2)
 
-## **Basic Exploration — Easy (50 pts)**
+## **Basic Exploration — Easy**
 
 ---
 
@@ -256,7 +265,7 @@ index=main sourcetype=Sample_Data_Test | stats count
 </details>
 
 <details><summary>Answer</summary>
-224
+447
 </details>
 
 ---
@@ -266,8 +275,11 @@ index=main sourcetype=Sample_Data_Test | stats count
 <details><summary>Query</summary>
 
 ```
-index=main sourcetype=Sample_Data_Test | fields * | head 1
+index=main sourcetype=Sample_Data_Test | fieldsummary  
 ```
+</details>
+<details><summary>Answer</summary>
+85 Total Fields.
 </details>
 
 ---
@@ -278,7 +290,8 @@ What protocol is most commonly used in intrusion events?
 <details><summary>Query</summary>
 
 ```
-index=main sourcetype=Sample_Data_Test | stats count by Protocol | sort -count
+index=main sourcetype=Sample_Data_Test | stats count by Protocol |
+sort -count
 ```
 </details>
 
@@ -288,12 +301,12 @@ TCP
 
 ---
 
-## **Counting & Classifying Intrusions — Medium (100 pts)**
+## **Counting & Classifying Intrusions — Medium**
 
 ---
 
 ### **4) Top Intrusion Rule & Total Rules**
-What is the Top Intrusion Rules/How Many Different Intrusion Rules are there?
+What is the Top Intrusion Rule/How Many Different Intrusion Rules are there?
 
 <details><summary>Query</summary>
 
@@ -306,7 +319,7 @@ index=main sourcetype=Sample_Data_Test
 </details>
 
 <details><summary>Answer</summary>
-FILE-EXECUTABLE download of executable content (8 rules total).
+`FILE-EXECUTABLE Portable Executable binary file magic detected` and 8 Different Intrusion Rules. 
 </details>
 
 ---
@@ -324,7 +337,7 @@ index=main sourcetype=Sample_Data_Test
 </details>
 
 <details><summary>Answer</summary>
-Potential Corporate Policy Violation (5 total)
+`Potential Corporate Policy Violation` and 5 different Classifications.
 </details>
 
 ---
@@ -342,29 +355,29 @@ index=main sourcetype=Sample_Data_Test Impact>4
 </details>
 
 <details><summary>Answer</summary>
-5
+5.
 </details>
 
 ---
 
-## **Network Source / Destination — Medium (100 pts)**
+## **Network Source / Destination — Medium**
 
 ---
 
-### **7) Attacker from Germany**
+### **7) Attackers from Germany**
 
-What's the IP of the external attacker from Germany?
+What are the IPs of the external attackers from Germany?
 
 <details><summary>Query</summary>
 
 ```
-index=main sourcetype=Sample_Data_Test 
+index=main sourcetype=Sample_Data_Test InitiatorCountry = Germany
 | stats count by InitiatorIP InitiatorCountry
 ```
 </details>
 
 <details><summary>Answer</summary>
-192.168.1.100
+192.168.1.100 and 3.124.41.193
 </details>
 
 ---
@@ -417,12 +430,12 @@ index=main sourcetype=Sample_Data_Test InitiatorPort=4444
 </details>
 
 <details><summary>Answer</summary>
-58090 and 8342
+Ports: 58090 and 8342
 </details>
 
 ---
 
-## **Suspicious Activity Detection — Hard (150 pts)**
+## **Suspicious Activity Detection — Hard**
 
 ---
 
@@ -434,13 +447,17 @@ What's the most common attack pattern (Signature ID and Classification and in wh
 
 ```
 index=main sourcetype=Sample_Data_Test
-| stats count by InitiatorCountry, SignatureID, Classification, 
+| stats count by InitiatorCountry, SignatureID, Classification 
 | sort -count
 ```
 </details>
 
 <details><summary>Answer</summary>
-15306 : Potential_Corporate_Policy_Violation : United_States
+SignatureID: 15306
+
+Classification: Potential_Corporate_Policy_Violation
+
+Country: United_States
 </details>
 
 ---
@@ -463,7 +480,7 @@ Microsoft_Update
 ---
 
 ### **13) Hidden .txt File**
-Look for the hidden .txt file containing a flag.
+Look for the event containing a hidden .txt file. The file is hidden in a field in reference to HTTP. 
 
 <details><summary>Query</summary>
 
@@ -480,7 +497,7 @@ FLAG{The_SOC_IS_AWESOME}
 
 ### **14) Flag Hidden in Hostname**
 
-The flag is hidden in the hostname. Try filtering to find the specific hostname.
+Try filtering to find the flag hidden in the hostname.
 
 <details><summary>Query</summary>
 
@@ -497,7 +514,7 @@ flag{SplunkHunters_HTTP_Challenge_2025}
 
 ### **15) Attacker with Most Unique Classifications**
 
-Which initiator/attacker IP is associated with the most multiple classifications?
+Which initiator/attacker IP is associated with the most unique classifications?
 
 <details><summary>Query</summary>
 
@@ -514,7 +531,7 @@ index=main sourcetype=Sample_Data_Test
 
 ---
 
-# Conclusion
+## Conclusion
 
 You now have hands-on experience with:
 
@@ -526,3 +543,9 @@ You now have hands-on experience with:
 - Performing SOC-style investigations  
 
 Feel free to expand the lab, create your own datasets, or build new challenges!
+
+--- 
+
+## Author & Credits
+This Splunk CTF Lab was created and maintained by **Roman Arreguin**.
+If you found this lab helpful or would like to collaborate on future SOC, Splunk, or cybersecurity projects feel free to reach out!
