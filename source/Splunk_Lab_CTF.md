@@ -40,7 +40,6 @@ Web logs are forwarded from Ubuntu to Splunk using the Universal Forwarder.
 
 Only the Splunk server is required. Intrusion logs are imported manually into Splunk.
 
-![Diagram](https://media.discordapp.net/attachments/1421187322023514232/1422494824644349952/bruh.jpg?ex=6919860a&is=6918348a&hm=dd59d837ebe27a3fac170b0073594e1d4f3222def5f065d993ab0ec3df23146f&=&format=webp&width=2063&height=1160)
 ---
 
 ## Option 1 - Simulated Attack Environment with Virtual Machines
@@ -65,6 +64,7 @@ This option provides a realistic SOC experience using a 3-VM attack environment.
 **Dataset Details**
 - Data should be indexed under:
 `index=web_log`
+
 ---
 
 **CTF Challenge Questions (Option 1)**
